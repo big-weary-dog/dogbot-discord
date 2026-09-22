@@ -49,18 +49,18 @@ Type `/roll` in your server to try it! 🎲
 Run `npm run deploy` again whenever you add, remove or change a command's name, description or options.
 You don't need it for changes that only affect what a command does.
 
-> **Tip:** If `DISCORD_GUILD_ID` is set, commands are registered in that server only. If you clear it
-> later and deploy globally, that server will show each command twice until you remove its server
-> commands.
+> **Tip:** Server commands (deployed with `DISCORD_GUILD_ID` set) and global commands (deployed
+> without it) are separate lists. If a server has both, each command shows up twice there. To remove
+> one list, run `npm run deploy -- --clear` with that setting, then deploy again with the one you want.
 
 ## Scripts
 
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Runs the bot from source and restarts it when files change |
-| `npm run deploy` | Registers slash commands with Discord |
+| `npm run deploy` | Registers slash commands with Discord (`npm run deploy -- --clear` removes them) |
 | `npm run build` | Compiles TypeScript into `dist/` |
-| `npm start` | Runs the compiled bot, for hosting |
+| `npm start` | Runs the compiled bot from `dist/`, for hosting (run `npm run build` first) |
 | `npm test` | Runs the tests |
 | `npm run typecheck` | Checks types without building |
 | `npm run check` | Runs the typecheck and the tests |
@@ -84,5 +84,6 @@ src/
 ### Adding a command
 
 1. Create `src/commands/<name>.ts` that exports a `Command` (copy `roll.ts` as a starting point).
-2. Add it to the `allCommands` list in `src/commands/index.ts`.
+2. Import it in `src/commands/index.ts` and add it to the `allCommands` list. Imports end in `.js`
+   even though the file is `.ts`, like `import { ping } from './ping.js'`.
 3. Run `npm run deploy`.

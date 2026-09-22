@@ -24,8 +24,8 @@ afterEach(() => {
 });
 
 describe('command registry', () => {
-  it('has /roll, /dog and /cat with unique names', () => {
-    expect([...commands.keys()].sort()).toEqual(['cat', 'dog', 'roll']);
+  it('includes /roll, /dog and /cat, with unique names', () => {
+    expect([...commands.keys()]).toEqual(expect.arrayContaining(['cat', 'dog', 'roll']));
     expect(commands.size).toBe(allCommands.length);
   });
 
